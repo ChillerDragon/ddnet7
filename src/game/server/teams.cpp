@@ -84,14 +84,6 @@ void CGameTeams::OnCharacterStart(int ClientID)
 	{
 		ChangeTeamState(m_Core.Team(ClientID), TEAMSTATE_STARTED);
 
-		char aBuf[512];
-		str_format(
-				aBuf,
-				sizeof(aBuf),
-				"Team %d started with these %d players: ",
-				m_Core.Team(ClientID),
-				Count(m_Core.Team(ClientID)));
-
 		bool First = true;
 
 		for(int i = 0; i < MAX_CLIENTS; ++i)

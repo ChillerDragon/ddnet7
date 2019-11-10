@@ -80,11 +80,6 @@ void CGameContext::ConKillPlayer(IConsole::IResult *pResult, void *pUserData)
 	if (pSelf->m_apPlayers[Victim])
 	{
 		pSelf->m_apPlayers[Victim]->KillCharacter(WEAPON_GAME);
-		char aBuf[512];
-		str_format(aBuf, sizeof(aBuf), "%s was killed by %s",
-				pSelf->Server()->ClientName(Victim),
-				pSelf->Server()->ClientName(pResult->m_ClientID));
-		pSelf->SendChat(-1, CHAT_ALL, -1, aBuf);
 	}
 }
 
@@ -516,11 +511,6 @@ void CGameContext::ConFreezeHammer(IConsole::IResult *pResult, void *pUserData)
 	if (!pChr)
 		return;
 
-	char aBuf[128];
-	str_format(aBuf, sizeof aBuf, "'%s' got freeze hammer!",
-			pSelf->Server()->ClientName(Victim));
-	pSelf->SendChatTarget(-1, aBuf);
-
 	pChr->m_FreezeHammer = true;
 }
 
@@ -534,10 +524,6 @@ void CGameContext::ConUnFreezeHammer(IConsole::IResult *pResult, void *pUserData
 	if (!pChr)
 		return;
 
-	char aBuf[128];
-	str_format(aBuf, sizeof aBuf, "'%s' lost freeze hammer!",
-			pSelf->Server()->ClientName(Victim));
-	pSelf->SendChatTarget(-1, aBuf);
 
 	pChr->m_FreezeHammer = false;
 }
