@@ -90,7 +90,7 @@ void CFileScore::SaveScoreThread(void *pUser)
 			}
 			t++;
 			if (t % 50 == 0)
-				thread_sleep(1000);
+				thread_sleep(1);
 		}
 	}
 	f.close();

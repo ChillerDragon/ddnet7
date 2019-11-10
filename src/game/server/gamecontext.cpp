@@ -1412,7 +1412,7 @@ void CGameContext::OnMessage(int MsgID, CUnpacker *pUnpacker, int ClientID)
 		}
 		else if (MsgID == NETMSGTYPE_CL_KILL && !m_World.m_Paused)
 		{
-			if(pPlayer->m_LastKill && pPlayer->m_LastKill+Server()->TickSpeed()*3 > Server()->Tick())
+			if(pPlayer->m_LastKill && pPlayer->m_LastKill+Server()->TickSpeed()*0.5 > Server()->Tick())
 				return;
 
 			pPlayer->m_LastKill = Server()->Tick();
