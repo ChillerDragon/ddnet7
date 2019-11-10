@@ -96,13 +96,10 @@ void CGameTeams::OnCharacterStart(int ClientID)
 				{
 					SetDDRaceState(pPlayer, DDRACE_STARTED);
 					SetStartTime(pPlayer, Tick);
-
 					if(First)
-						First = false;
-					else
-						str_append(aBuf, ", ", sizeof(aBuf));
+					First = false;
+					
 
-					str_append(aBuf, GameServer()->Server()->ClientName(i), sizeof(aBuf));
 				}
 			}
 		}
@@ -114,7 +111,7 @@ void CGameTeams::OnCharacterStart(int ClientID)
 				CPlayer* pPlayer = GetPlayer(i);
 				if(m_Core.Team(ClientID) == m_Core.Team(i) && pPlayer && (pPlayer->IsPlaying() || TeamLocked(m_Core.Team(ClientID))))
 				{
-					GameServer()->SendChatTarget(i, aBuf);
+					
 				}
 			}
 		}
