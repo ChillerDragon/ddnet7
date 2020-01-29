@@ -332,7 +332,7 @@ int64_t CGameTeams::TeamMask(int Team, int ExceptID, int Asker)
 				} // ShowOthers
 			} // See everything of yourself
 		}
-		else if (GetPlayer(i)->GetSpectatorID() != -1)
+		else if (GetPlayer(i)->GetSpecMode() == SPEC_PLAYER)
 		{ // Spectating specific player
 			if (GetPlayer(i)->GetSpectatorID() != Asker)
 			{ // Actions of other players
@@ -561,8 +561,6 @@ void CGameTeams::OnCharacterSpawn(int ClientID)
 
 void CGameTeams::OnCharacterDeath(int ClientID, int Weapon)
 {
-	GameServer()->m_apPlayers[ClientID]->Respawn(); // queue the spawn as kill tiles don't
-
 	m_Core.SetSolo(ClientID, false);
 
 	int Team = m_Core.Team(ClientID);
