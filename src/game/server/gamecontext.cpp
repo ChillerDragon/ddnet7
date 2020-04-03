@@ -729,7 +729,20 @@ void CGameContext::OnTick()
 					else if(ActVote < 0)
 						No++;
 				}
+				if(g_Config.m_SvVoteMaxTotal && Total > g_Config.m_SvVoteMaxTotal &&
+						(m_VoteKick || m_VoteSpec))
+					Total = g_Config.m_SvVoteMaxTotal;
+
+				if(Yes > Total / (100.0f / g_Config.m_SvVoteYesPercentage))
+					m_VoteEnforce = VOTE_ENFORCE_YES;
+				else if(No >= Total - Total / (100.0f / g_Config.m_SvVoteYesPercentage))
+					m_VoteEnforce = VOTE_ENFORCE_NO;
+
+				m_VoteWillPass = Yes > (Yes + No) / (100.0f / g_Config.m_SvVoteYesPercentage);
 			}
+
+			if(time_get() > m_VoteCloseTime && !g_Config.m_SvVoteMajority)
+				m_VoteEnforce = m_VoteWillPass ? VOTE_ENFORCE_YES : VOTE_ENFORCE_NO;
 
 			if(m_VoteEnforce == VOTE_ENFORCE_YES || (m_VoteUpdate && Yes >= Total/2+1))
 			{
@@ -739,9 +752,9 @@ void CGameContext::OnTick()
 				if(m_VoteCreator != -1 && m_apPlayers[m_VoteCreator])
 					m_apPlayers[m_VoteCreator]->m_LastVoteCall = 0;
 
-				EndVote(VOTE_END_PASS, m_VoteEnforce==VOTE_ENFORCE_YES);
+				EndVote(VOTE_END_PASS, false);
 			}
-			else if(m_VoteEnforce == VOTE_ENFORCE_NO || (m_VoteUpdate && No >= (Total+1)/2) || time_get() > m_VoteCloseTime)
+			else if(m_VoteEnforce == VOTE_ENFORCE_NO || (m_VoteUpdate && No >= (Total+1)/2) || (time_get() > m_VoteCloseTime && g_Config.m_SvVoteMajority))
 				EndVote(VOTE_END_FAIL, m_VoteEnforce==VOTE_ENFORCE_NO);
 			else if(m_VoteUpdate)
 			{
